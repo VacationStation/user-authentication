@@ -1,0 +1,25 @@
+{
+  "name": "user-authentication",
+  "version": "0.0.1",
+  "description": "A RESTful application for authenticating and managing users",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chris9r/user-authentication.git"
+  },
+  "keywords": [
+    "user",
+    "authentication",
+    "user-authentication",
+    "usermanager"
+  ],
+  "author": "Christian Kalig",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chris9r/user-authentication/issues"
+  },
+  "homepage": "https://github.com/chris9r/user-authentication#readme"
+}
