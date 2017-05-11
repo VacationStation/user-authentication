@@ -7,6 +7,8 @@ import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 
+import UserRouter from './routes/UserRouter';
+
 class App {
 
     public express: express.Application;
@@ -35,6 +37,7 @@ class App {
             });
         });
         this.express.use('/', router);
+        this.express.use('/api/v1/users', UserRouter);
     }
 
 }
