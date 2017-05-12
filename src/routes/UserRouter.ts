@@ -2,7 +2,12 @@
  * Created by christiankalig on 11.05.17.
  */
 import {Router, Request, Response, NextFunction} from 'express';
+
+import {UserController} from '../controller/user';
+
 const Users = require('../data/users');
+
+namespace userRoutes {}
 
 export class UserRouter {
 
@@ -11,6 +16,23 @@ export class UserRouter {
     constructor() {
         this.router = Router();
         this.init();
+    }
+
+    public add(req: Request, res: Response, next: NextFunction){
+        const uc = new UserController(req.body.client);
+        uc.add(req.body.user).then((user) => {
+            res.status(200)
+                .send({
+                    message: 'success',
+                    status: res.status
+                });
+        }).catch((err) => {
+            res.status(500)
+                .send({
+                    message: 'error',
+                    status: res.status
+                });
+        });
     }
 
     public getAll(req: Request, res: Response, next: NextFunction){
@@ -36,9 +58,12 @@ export class UserRouter {
         }
     }
 
+
+
     init() {
         this.router.get('/', this.getAll);
         this.router.get('/:id', this.getOne);
+        this.router.post('/', this.add);
     }
 }
 

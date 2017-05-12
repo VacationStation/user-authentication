@@ -33,10 +33,10 @@ class App {
         // placeholder route handler
         router.get('/', (req, res, next) => {
             res.json({
-                message: 'Hello World!'
+                message: 'User-Authentication API version 1'
             });
         });
-        this.express.use('/', router);
+        this.express.use('/api/v1', router);
         this.express.use('/api/v1/users', UserRouter);
     }
 

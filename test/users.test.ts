@@ -38,3 +38,35 @@ describe('GET api/v1/users', () => {
     });
 
 });
+
+describe('GET api/v1/users/:id', () => {
+
+    it('responds with single JSON Object', () => {
+        return chai.request(app).get('/api/v1/users/1')
+            .then(res => {
+                expect(res.status).to.equal(200);
+                expect(res).to.be.json;
+                expect(res.body).to.be.an('object');
+            });
+    });
+
+    it('should return Max Mustermann', () => {
+        return chai.request(app).get('/api/v1/users/1')
+            .then(res => {
+                expect(res.body.user.fullname).to.equal("Max Mustermann");
+            });
+    });
+
+});
+
+describe('POST api/v1/users', () => {
+    it('responds with single JSON Object', () => {
+        return chai.request(app).post('/api/v1/users')
+            .send({client: 'TEST_CLIENT_1', user: {firstname: 'test', lastname: 'test', email: 'test@test.de'}})
+            .then(res => {
+                // expect(res).to.be.json;
+                // expect(res.status).to.equal(200);
+                expect(res.body.message).to.exist;
+            });
+    });
+});
