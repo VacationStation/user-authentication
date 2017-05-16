@@ -24,17 +24,13 @@ class App {
     }
 
     private middleware(): void {
-        console.log("middleware loaded");
         this.express.use(logger('dev'));
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({extended: false}));
     }
 
     private routes(): void {
-        console.log("routes initialized");
-
         let router = express.Router();
-        // placeholder route handler
         router.get('/', (req, res, next) => {
             res.json({
                 message: 'User-Authentication API version 1'

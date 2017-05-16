@@ -4,6 +4,9 @@
 
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm';
 
+/**
+ * User Entity for persisting a user
+ */
 @Entity()
 export class User {
 

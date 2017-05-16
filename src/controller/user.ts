@@ -4,21 +4,25 @@
 import {User} from '../db/mysql/models/User';
 import {getConnectionManager} from "typeorm";
 
+/**
+ * works as link between router and database
+ * provides/persists user data
+ */
 export class UserController {
 
-    private connection;
-    private userRepo;
-
-    constructor() {
-        console.log("uc constructor");
-        const cm = getConnectionManager();
-        this.connection = cm.get();
-    }
-
+    /**
+     * gets the database connection
+     * @returns {Connection}
+     */
     private static repo() {
         return getConnectionManager().get();
     }
 
+    /**
+     * adds a user
+     * @param userData
+     * @returns {Promise<User[]>}
+     */
     public static add(userData) {
         const userRepo = this.repo().getRepository(User);
         let user = new User();
@@ -29,6 +33,12 @@ export class UserController {
         return userRepo.persist(user);
     }
 
+    /**
+     * updates a user
+     * @param id
+     * @param userData
+     * @returns {any}
+     */
     public static update(id, userData) {
         const userRepo = this.repo().getRepository(User);
         return userRepo.findOneById(id).then(user => {
@@ -39,11 +49,20 @@ export class UserController {
         });
     }
 
+    /**
+     * returns one user
+     * @param id
+     * @returns {Promise<undefined|User>}
+     */
     public static getById(id: string) {
         const userRepo = this.repo().getRepository(User);
         return userRepo.findOneById(id);
     }
 
+    /**
+     * loads all users
+     * @returns {Promise<User[]>}
+     */
     public static getAll() {
         const userRepo = this.repo().getRepository(User);
         return userRepo
@@ -51,14 +70,22 @@ export class UserController {
             .getMany();
     }
 
+    /**
+     * loads all active users
+     * @returns {Promise<User[]>}
+     */
     public static getAllActive() {
         const userRepo = this.repo().getRepository(User);
         return userRepo
             .createQueryBuilder('user')
-            .where('user.isActive = 1')
+            .where('user.isActive = true')
             .getMany();
     }
 
+    /**
+     * loads all inactive users
+     * @returns {Promise<User[]>}
+     */
     public static getAllInactive() {
         const userRepo = this.repo().getRepository(User);
         return userRepo
