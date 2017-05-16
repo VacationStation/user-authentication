@@ -37,6 +37,7 @@ class App {
             });
         });
         this.express.use('/api/v1', router);
+        // TODO: secure routes
         this.express.use('/api/v1/users', UserRouter);
     }
 

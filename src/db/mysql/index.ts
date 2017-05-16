@@ -26,6 +26,11 @@ export class MySQL {
                 User
             ],
             autoSchemaSync: true,
+        }).then(() => {
+            console.log("\x1b[32m%s\x1b[0m","MySQL connection successful");
+        }).catch(err => {
+            console.error("\x1b[31m%s\x1b[0m", "MySQL connection not possible");
+            process.exit();
         });
     }
 }
