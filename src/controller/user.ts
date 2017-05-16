@@ -1,36 +1,69 @@
 /**
  * Created by christiankalig on 12.05.17.
  */
-
-import mongoose = require("mongoose");
-import Promise = require('promise');
-
-import {IUser} from '../interfaces/user';
-
-import {IModel} from '../models/model';
-import {IUserModel} from '../models/user';
-
-import {userSchema} from '../schemes/user';
-
-import {MongoDBController} from './mongodb';
+import {User} from '../db/mysql/models/User';
+import {getConnectionManager} from "typeorm";
 
 export class UserController {
 
-    private model:IModel;
-    private db: MongoDBController;
+    private connection;
+    private userRepo;
 
-    constructor(client: string){
-        this.db = new MongoDBController(client);
-        this.model = {user: this.db.connection.model<IUserModel>("User", userSchema)};
+    constructor() {
+        console.log("uc constructor");
+        const cm = getConnectionManager();
+        this.connection = cm.get();
     }
 
-    public add(userData:IModel){
-        const user = new this.model.user(userData);
-        return new Promise((resolve, reject) => {
-            user.save((err, user) => {
-                if(err) reject(err);
-                if(user) resolve(user);
-            });
+    private static repo() {
+        return getConnectionManager().get();
+    }
+
+    public static add(userData) {
+        const userRepo = this.repo().getRepository(User);
+        let user = new User();
+        user.firstName = userData.firstName;
+        user.lastName = userData.lastName;
+        user.email = userData.email;
+
+        return userRepo.persist(user);
+    }
+
+    public static update(id, userData) {
+        const userRepo = this.repo().getRepository(User);
+        return userRepo.findOneById(id).then(user => {
+            user.firstName = userData.firstName;
+            user.lastName = userData.lastName;
+            user.email = userData.email;
+            return userRepo.persist(user);
         });
+    }
+
+    public static getById(id: string) {
+        const userRepo = this.repo().getRepository(User);
+        return userRepo.findOneById(id);
+    }
+
+    public static getAll() {
+        const userRepo = this.repo().getRepository(User);
+        return userRepo
+            .createQueryBuilder('user')
+            .getMany();
+    }
+
+    public static getAllActive() {
+        const userRepo = this.repo().getRepository(User);
+        return userRepo
+            .createQueryBuilder('user')
+            .where('user.isActive = 1')
+            .getMany();
+    }
+
+    public static getAllInactive() {
+        const userRepo = this.repo().getRepository(User);
+        return userRepo
+            .createQueryBuilder('user')
+            .where('user.isActive = 0')
+            .getMany();
     }
 }

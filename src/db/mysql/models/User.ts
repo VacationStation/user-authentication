@@ -2,37 +2,42 @@
  * Created by christiankalig on 15.05.17.
  */
 
-import {Table, Column, Model, DataType} from 'sequelize-typescript';
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm';
 
-@Table
-export class User extends Model<User> {
+@Entity()
+export class User {
 
-    @Column({
-        type: DataType.INTEGER, autoIncrement: true, unique: true, primaryKey: true
-    })
+    @PrimaryGeneratedColumn()
     id: number;
 
-    @Column(DataType.STRING)
+    @Column("string")
     firstName: string;
 
-    @Column(DataType.STRING)
+    @Column("string")
     lastName: string;
 
-    @Column(DataType.STRING)
+    @Column("string")
     email: string;
 
-    @Column(DataType.STRING)
+    @Column("string")
     password: string;
 
-    @Column(DataType.BOOLEAN)
+    @Column({
+        type: "boolean",
+        default: 1
+    })
     isActive: boolean;
 
-    @Column(DataType.BOOLEAN)
+    @Column({
+        type: "boolean",
+        default: 0
+    })
     isAdmin: boolean;
 
-    @Column
-    get fullName(): string {
-        return this.firstName + ' ' + this.lastName;
-    }
+    @CreateDateColumn("datetime")
+    createdAt;
+
+    @UpdateDateColumn("datetime")
+    updatedAt;
 
 }
