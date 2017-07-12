@@ -37,6 +37,9 @@ export class User {
     })
     isAdmin: boolean;
 
+    @Column("string")
+    meta: string;
+
     @CreateDateColumn("datetime")
     createdAt;
 

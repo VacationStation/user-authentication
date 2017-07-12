@@ -21,15 +21,13 @@ export class UserController {
     /**
      * adds a user
      * @param userData
-     * @returns {Promise<User[]>}
+     * @returns {Promise<User>}
      */
-    public static add(userData) {
+    public static add(userData): Promise<User> {
         const userRepo = this.repo().getRepository(User);
         let user = new User();
-        user.firstName = userData.firstName;
-        user.lastName = userData.lastName;
-        user.email = userData.email;
-
+        console.log("userData", userData);
+        user = userData.user;
         return userRepo.persist(user);
     }
 

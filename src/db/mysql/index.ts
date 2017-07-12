@@ -6,6 +6,8 @@ import {createConnection, Connection} from "typeorm";
 
 import {User} from './models/User';
 
+import {UserSubscriber} from './subscribers/UserSubscriber';
+
 export class MySQL {
 
     constructor() {
@@ -24,6 +26,9 @@ export class MySQL {
             },
             entities: [
                 User
+            ],
+            subscribers: [
+                UserSubscriber
             ],
             autoSchemaSync: true,
         }).then(() => {

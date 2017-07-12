@@ -10,6 +10,7 @@ import {MySQL} from './db/mysql';
 import 'reflect-metadata';
 
 import UserRouter from './routes/UserRouter';
+import AuthenticationRouter from './routes/AuthenticationRouter';
 
 class App {
 
@@ -39,6 +40,7 @@ class App {
         this.express.use('/api/v1', router);
         // TODO: secure routes
         this.express.use('/api/v1/users', UserRouter);
+        this.express.use('/api/v1/auth', AuthenticationRouter);
     }
 
 }

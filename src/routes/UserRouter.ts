@@ -5,9 +5,6 @@ import {Router, Request, Response, NextFunction} from 'express';
 
 import {UserController} from '../controller/user';
 
-namespace userRoutes {
-}
-
 export class UserRouter {
 
     router: Router;
@@ -18,8 +15,9 @@ export class UserRouter {
     }
 
     private add(req: Request, res: Response, next: NextFunction) {
-        UserController.add(req.body.user).then((user) => {
-            res.status(200).send({message: 'success', status: res.status, user: user});
+        console.log("req.body", req.body);
+        UserController.add(req.body).then((user) => {
+            res.status(200).send({success: true, message: 'success', status: res.status, user: user});
         }).catch((err) => {
             res.status(500).send({message: 'error', status: res.status});
         });
